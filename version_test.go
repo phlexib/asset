@@ -53,8 +53,6 @@ func TestGetFilesFromPath(t *testing.T) {
 
 func TestGetAepFilesFromPath(t *testing.T) {
 	expected := []string{"/Users/buck/Desktop/current/mock/work/current/TestDesign/Production/TEST010/Work/AE/TEST010_v003.aep",
-		"/Users/buck/Desktop/current/mock/work/current/TestDesign/Production/TEST010/Work/AE/TEST010_v004.aep",
-		"/Users/buck/Desktop/current/mock/work/current/TestDesign/Production/TEST010/Work/AE/TEST010_v005.aep",
 		"/Users/buck/Desktop/current/mock/work/current/TestDesign/Production/TEST010/Work/AE/_archive/TEST010_v002.aep",
 		"/Users/buck/Desktop/current/mock/work/current/TestDesign/Production/TEST010/Work/AE/_archive/TEST010_v001.aep"}
 
