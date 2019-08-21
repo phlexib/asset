@@ -1,39 +1,20 @@
-package version
+package asset
 
-//AppFilter represents posiible filters for search based on Applcation Names
-type AppFilter int
-
-const (
-	AfterEffects AppFilter = iota
-	Cinema4D
-	Hiero
-	Maya
-	Nuke
-	Photoshop
-	Premiere
-)
-
-//AppPattern returns a string to use in Regex
-func (a AppFilter) AppPattern() string {
-	switch a {
-	case AfterEffects:
-		return "(^((?!ame|Auto-Save).)+(.aep))"
-	case Cinema4D:
-		return "(^((?!backup|tex).)+(.c4d))"
-	case Hiero:
-		return "(^((?!autosave).)+(.hrox))"
-	case Maya:
-		return "(^((?!ame|Auto-Save).)+(.mb))"
-	case Nuke:
-		return "(.nk$)"
-	case Photoshop:
-		return "(.psd)"
-	case Premiere:
-		return "(^((?!ame|Auto Save).)+(.prproj))"
-	default:
-		return ""
-	}
+//AppFilter is a struct to simplify project file query
+type AppFilter struct {
+	Extension string
+	Ignore    []string
 }
+
+var (
+	AfterEffect = AppFilter{Extension: ".aep", Ignore: []string{"ame", "Auto-Save"}}
+	Cinema4D    = AppFilter{Extension: ".c4d", Ignore: []string{"backup"}}
+	Hiero       = AppFilter{Extension: ".hrox", Ignore: []string{".autosave"}}
+	Maya        = AppFilter{Extension: ".mb", Ignore: []string{}}
+	Nuke        = AppFilter{Extension: ".nk", Ignore: []string{".autosave"}}
+	Photoshop   = AppFilter{Extension: ".psd", Ignore: []string{}}
+	Premiere    = AppFilter{Extension: ".prproj", Ignore: []string{"ame", "Auto-Save"}}
+)
 
 //Filter returns a new slice containing all strings in the slice that satisfy the predicate f.
 func Filter(vs []string, f func(string) bool) []string {

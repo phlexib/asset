@@ -1,4 +1,4 @@
-package version
+package asset
 
 import (
 	"fmt"
@@ -34,8 +34,11 @@ func padNumberWithZero(padding string, value int) string {
 	return fmt.Sprintf(padding, value)
 }
 
-func getFilesFromPath(str string, search string) []string {
+func getFilesFromPath(str string, search string, ignore []string, showArchive bool) []string {
 	dir := filepath.Dir(str)
+	if !showArchive {
+		ignore = append(ignore, "_archive")
+	}
 	var files []string
 
 	err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
@@ -45,10 +48,19 @@ func getFilesFromPath(str string, search string) []string {
 	if err != nil {
 		panic(err)
 	}
+	r := regexp.MustCompile(search)
 
 	filtered := Filter(files, func(v string) bool {
-		return strings.Contains(v, search)
+		return r.MatchString(v)
 	})
+
+	if len(ignore) > 0 {
+		for i := 0; i < len(ignore); i++ {
+			filtered = Filter(filtered, func(v string) bool {
+				return !strings.Contains(v, ignore[i])
+			})
+		}
+	}
 
 	return filtered
 }
